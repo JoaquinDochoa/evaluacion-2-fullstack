@@ -1,0 +1,115 @@
+Opción 1 — Ejecutar todo de una vez
+Ve a phpMyAdmin → pestaña SQL → pega todos los scripts juntos de arriba a abajo → clic en Ejecutar.
+El CREATE DATABASE y USE al inicio de cada bloque crean y seleccionan la base automáticamente, así que no necesitas hacer nada más a mano.
+
+Opción 2 — Base de datos por base de datos
+
+Crea la base de datos manualmente desde phpMyAdmin
+Haz clic en ella para entrar
+Ve a la pestaña SQL
+Pega solo el bloque INSERT INTO ... correspondiente
+Clic en Ejecutar
+
+
+⚠️ Una cosa importante
+El orden en que ejecutas los scripts importa, porque los IDs deben existir antes de referenciarlos. Sigue este orden:
+
+bd_usuarios
+bd_categorias
+bd_videojuegos
+bd_sucursales
+bd_inventario
+bd_arriendos
+bd_pagos
+bd_reservas
+
+
+CREATE DATABASE IF NOT EXISTS bd_usuarios;
+USE bd_usuarios;
+
+INSERT INTO usuarios (nombre, correo, password, rol) VALUES
+('Carlos Mendoza',    'carlos.mendoza@gmail.com',  'pass1234', 'ADMIN'),
+('María López',      'maria.lopez@gmail.com',      'pass1234', 'CLIENTE'),
+('Jorge Ramírez',    'jorge.ramirez@gmail.com',    'pass1234', 'CLIENTE'),
+('Valentina Torres', 'valentina.torres@gmail.com', 'pass1234', 'CLIENTE'),
+('Andrés Fuentes',   'andres.fuentes@gmail.com',   'pass1234', 'EMPLEADO');
+
+
+CREATE DATABASE IF NOT EXISTS bd_categorias;
+USE bd_categorias;
+
+INSERT INTO categorias (nombre, descripcion) VALUES
+('Acción',       'Juegos de combate, disparos y aventura en tiempo real'),
+('RPG',          'Juegos de rol con historia profunda y desarrollo de personajes'),
+('Deportes',     'Simulaciones deportivas de fútbol, básquetbol, tenis y más'),
+('Terror',       'Juegos de suspenso y horror con ambientación oscura'),
+('Estrategia',   'Juegos de planificación y toma de decisiones por turnos o tiempo real');
+
+
+CREATE DATABASE IF NOT EXISTS bd_videojuegos;
+USE bd_videojuegos;
+
+INSERT INTO videojuegos (titulo, plataforma, precio_arriendo, stock, categoria_id) VALUES
+('God of War Ragnarok',  'PS5',     3990.0, 8,  1),
+('Elden Ring',           'PC',      2990.0, 5,  2),
+('FIFA 25',              'PS5',     2500.0, 10, 3),
+('Resident Evil 4',      'PS5',     2990.0, 6,  4),
+('Civilization VII',     'PC',      1990.0, 4,  5),
+('Spider-Man 2',         'PS5',     3500.0, 7,  1),
+('Baldur s Gate 3',      'PC',      2990.0, 3,  2);
+
+
+CREATE DATABASE IF NOT EXISTS bd_sucursales;
+USE bd_sucursales;
+
+INSERT INTO sucursales (nombre, direccion, telefono) VALUES
+('Sucursal Centro',      'Av. Libertador 1234, Santiago',     '222345678'),
+('Sucursal Providencia', 'Av. Providencia 567, Santiago',     '222456789'),
+('Sucursal Maipú',       'Av. Pajaritos 890, Maipú',          '222567890'),
+('Sucursal La Florida',  'Av. Vicuña Mackenna 1100, Florida', '222678901'),
+('Sucursal Viña',        'Av. Libertad 432, Viña del Mar',    '322789012');
+
+CREATE DATABASE IF NOT EXISTS bd_inventario;
+USE bd_inventario;
+
+INSERT INTO inventario (videojuego_id, stock, sucursal_id) VALUES
+(1, 3, 1),
+(2, 2, 1),
+(3, 5, 2),
+(4, 2, 3),
+(5, 1, 4),
+(6, 4, 2),
+(7, 2, 5);
+
+
+CREATE DATABASE IF NOT EXISTS bd_arriendos;
+USE bd_arriendos;
+
+INSERT INTO arriendos (fecha, usuario_id, videojuego_id) VALUES
+('2025-05-01', 2, 1),
+('2025-05-03', 3, 3),
+('2025-05-05', 4, 2),
+('2025-05-07', 2, 4),
+('2025-05-10', 5, 6);
+
+
+CREATE DATABASE IF NOT EXISTS bd_pagos;
+USE bd_pagos;
+
+INSERT INTO pagos (monto, metodo_pago, estado, arriendo_id) VALUES
+(3990.0, 'TARJETA',     'PAGADO',   1),
+(2500.0, 'EFECTIVO',    'PAGADO',   2),
+(2990.0, 'TRANSFERENCIA','PAGADO',  3),
+(2990.0, 'TARJETA',     'PENDIENTE',4),
+(3500.0, 'EFECTIVO',    'PAGADO',   5);
+
+
+CREATE DATABASE IF NOT EXISTS bd_reservas;
+USE bd_reservas;
+
+INSERT INTO reservas (fecha_reserva, estado, usuario_id, videojuego_id) VALUES
+('2025-05-12', 'PENDIENTE',  2, 5),
+('2025-05-13', 'CONFIRMADA', 3, 1),
+('2025-05-14', 'CANCELADA',  4, 3),
+('2025-05-15', 'PENDIENTE',  5, 7),
+('2025-05-16', 'CONFIRMADA', 2, 6);
